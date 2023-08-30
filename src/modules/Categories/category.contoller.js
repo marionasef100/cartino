@@ -149,7 +149,7 @@ export const getAllCategories = async (req, res, next) => {
   //     categoryArr.push(objectCat)
   //   }
 
-  res.status(200).json({ message: 'Done', Categories })
+  res.status(200).json({ message: 'your Categories are:', Categories })
 }
 
 // ========================================= delete category =========================
