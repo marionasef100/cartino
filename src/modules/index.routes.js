@@ -6,6 +6,7 @@ import couponRouter from './Coupons/coupon.routes.js'
 import auhtRouter from './Auth/auth.routes.js'
 import cartRouter from './Carts/cart.routes.js'
 import orderRouter from './Orders/order.routes.js'
+import reviewsRouter from './Reviews/review.routes.js'
 
 export {
   categoryRouter,
@@ -15,5 +16,6 @@ export {
   couponRouter,
   auhtRouter,
   cartRouter,
-  orderRouter
+  orderRouter,
+  reviewsRouter
 }

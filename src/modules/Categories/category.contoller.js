@@ -126,29 +126,6 @@ export const getAllCategories = async (req, res, next) => {
     },
   ])
   console.log({ Categories })
-
-  //======================================== normal for loop ======================================
-  // for (const category of Categories) {
-  //   const subCategories = await subCategoryModel.find({
-  //     categoryId: category._id,
-  //   })
-  //   const objectCat = category.toObject()
-  //   objectCat.subCategories = subCategories
-  //   categoryArr.push(objectCat)
-  // }
-
-  //=========================================== cursor way ================================
-  //   const cursor = Categories.cursor()
-  //   for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
-  //     const subCategories = await subCategoryModel.find({
-  //       categoryId: doc._id,
-  //     })
-
-  //     const objectCat = doc.toObject()
-  //     objectCat.subCategories = subCategories
-  //     categoryArr.push(objectCat)
-  //   }
-
   res.status(200).json({ message: 'your Categories are:', Categories })
 }
 

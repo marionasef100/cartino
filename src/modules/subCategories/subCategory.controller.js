@@ -7,9 +7,10 @@ const nanoid = customAlphabet('123456_=!ascbhdtel', 5)
 
 //======================================= create subCategory ==============================
 export const createSubCategory = async (req, res, next) => {
+  const { _id } = req.authUser
   const { categoryId } = req.params
   const { name } = req.body
-  const category = await categoryModel.findById(categoryId)
+  const category = await categoryModel.findOne({_id:categoryId,createdBy:_id})
   // check categoryId
   if (!category) {
     return next(new Error('invalid categoryId', { cause: 400 }))
@@ -46,6 +47,7 @@ export const createSubCategory = async (req, res, next) => {
       public_id,
     },
     categoryId,
+    createdBy:_id
   }
 
   const subCategory = await subCategoryModel.create(subCategoryObject)

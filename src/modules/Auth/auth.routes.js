@@ -7,6 +7,7 @@ router.post('/', asyncHandler(ac.signUp))
 
 router.get('/confirm/:token', asyncHandler(ac.confirmEmail))
 router.post('/login', asyncHandler(ac.logIn))
+router.post('/loginWithGmail' , asyncHandler(ac.loginWithGmail))
 router.post('/forget', asyncHandler(ac.forgetPassword))
 router.post('/reset/:token', asyncHandler(ac.resetPassword))
 

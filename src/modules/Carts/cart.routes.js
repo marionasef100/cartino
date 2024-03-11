@@ -6,5 +6,5 @@ import { isAuth } from '../../middlewares/auth.js'
 import { systemRoles } from '../../utils/systemRoles.js'
 
 router.post('/', isAuth([systemRoles.USER]), asyncHandler(cc.addToCart))
-router.delete('/', isAuth(), asyncHandler(cc.deleteFromCart))
+router.delete('/', isAuth(systemRoles.USER), asyncHandler(cc.deleteFromCart))
 export default router

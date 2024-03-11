@@ -13,8 +13,8 @@ export async function sendEmailService({
     secure: false, 
     service: 'gmail',
     auth: {
-      user: 'amiraezaat824@gmail.com',
-      pass: 'mnltzqkbyvieimar',
+      user: 'marionasef22@gmail.com',
+      pass: 'gtrjecgfxjoaadae',
     },
   })
 

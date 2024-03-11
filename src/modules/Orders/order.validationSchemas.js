@@ -1,4 +1,4 @@
-// import { genSalt } from 'bcrypt'
+
 import Joi from 'joi'
 import { generalFields } from '../../middlewares/validation.js'
 

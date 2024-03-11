@@ -10,6 +10,7 @@ export const addProductSchema = {
     colors: Joi.array().items(Joi.string().required()).optional(),
     sizes: Joi.array().items(Joi.string().required()).optional(),
     stock: Joi.number().integer().positive().min(1).required(),
+    barcode:Joi.number().integer().positive().required()
   }),
   query: Joi.object({
     categoryId: generalFields._id,
@@ -27,6 +28,7 @@ export const updateProductSchema = {
     colors: Joi.array().items(Joi.string().required()).optional(),
     sizes: Joi.array().items(Joi.string().required()).optional(),
     stock: Joi.number().integer().positive().min(1).optional(),
+    barcode:Joi.number().integer().positive().required()
   }),
   query: Joi.object({
     productId: generalFields._id.required(),

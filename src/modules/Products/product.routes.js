@@ -21,8 +21,8 @@ router.put(
   asyncHandler(pc.updateProduct),
 )
 
-// router.get('/', asyncHandler(pc.getAllProd))
-router.get('/', asyncHandler(pc.getAllProdwithFilter))
+router.get('/', asyncHandler(pc.getAllProd))
+// router.get('/', asyncHandler(pc.getAllProdwithFilter))
 
 router.get('/title', asyncHandler(pc.getProductsByTitle))
 router.delete('/', asyncHandler(pc.deleteProduct))

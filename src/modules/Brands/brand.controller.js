@@ -8,12 +8,13 @@ const nanoid = customAlphabet('123456_=!ascbhdtel', 5)
 
 //=================================== Add Brand ========================
 export const addBrand = async (req, res, next) => {
+  const { _id } = req.authUser
   const { name } = req.body
   const { subCategoryId, categoryId } = req.query
   // check categories
-  const subCategoryExists = await subCategoryModel.findById(subCategoryId)
-  const categoryExists = await categoryModel.findById(categoryId)
-
+  const subCategoryExists = await subCategoryModel.findOne({_id:subCategoryId,createdBy:_id})
+  const categoryExists = await categoryModel.findOne({_id:categoryId,createdBy:_id})
+console.log({subCategoryExists,categoryExists});
   if (!subCategoryExists || !categoryExists) {
     return next(new Error('invalid categories', { cause: 400 }))
   }
@@ -41,6 +42,7 @@ export const addBrand = async (req, res, next) => {
     categoryId,
     subCategoryId,
     customId,
+    createdBy:_id
   }
   const dbBrand = await brandModel.create(brandObject)
   if (!dbBrand) {

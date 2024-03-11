@@ -4,6 +4,7 @@ import { sendEmailService } from '../../services/sendEmailService.js'
 import { emailTemplate } from '../../utils/emailTemplate.js'
 import { generateToken, verifyToken } from '../../utils/tokenFunctions.js'
 import pkg from 'bcrypt'
+import { OAuth2Client } from 'google-auth-library'
 
 //======================================== SignUp ===========================
 export const signUp = async (req, res, next) => {
@@ -53,6 +54,7 @@ export const signUp = async (req, res, next) => {
     gender,
     phoneNumber,
     address,
+    
   })
   const savedUser = await user.save()
   res.status(201).json({ message: 'Done', savedUser })
@@ -110,9 +112,6 @@ export const logIn = async (req, res, next) => {
   )
   res.status(200).json({ messge: 'Login done', userUpdated })
 }
-
-// $2b$08$aCTNWWGlNIt5HlOlpJPa8OHNiPXbbTKhIN834obf7IPezzPgJDI.q
-// $2b$08$.qw81M18IjcwMuBWBj/.sebP5ktUisgtG4eeBnksSbebWpQN35zmK
 
 //===================================== forget password  =============================
 export const forgetPassword = async (req, res, next) => {
@@ -179,4 +178,73 @@ export const resetPassword = async (req, res, next) => {
 
   const resetedPassData = await user.save()
   res.status(200).json({ message: 'Done', resetedPassData })
+}
+
+export const loginWithGmail = async (req, res, next) => {
+  const client = new OAuth2Client()
+  const { idToken } = req.body
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+      // Or, if multiple clients access the backend:
+      //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    })
+    const payload = ticket.getPayload()
+    return payload
+  }
+  const { email_verified, email, name } = await verify()
+  if (!email_verified) {
+    return next(new Error('invalid email', { cause: 400 }))
+  }
+  const user = await userModel.findOne({ email, provider: 'GOOGLE' })
+  //login
+  if (user) {
+    const token = generateToken({
+      payload: {
+        email,
+        _id: user._id,
+        role: user.role,
+      },
+      signature: process.env.SIGN_IN_TOKEN_SECRET,
+      expiresIn: '1h',
+    })
+
+    const userUpdated = await userModel.findOneAndUpdate(
+      { email },
+      {
+        token,
+        status: 'Online',
+      },
+      {
+        new: true,
+      },
+    )
+    return res.status(200).json({ messge: 'Login done', userUpdated, token })
+  }
+
+  // signUp
+  const userObject = {
+    userName: name,
+    email,
+    password: nanoid(6),
+    provider: 'GOOGLE',
+    isConfirmed: true,
+    phoneNumber: ' ',
+    role: 'User',
+  }
+  const newUser = await userModel.create(userObject)
+  const token = generateToken({
+    payload: {
+      email: newUser.email,
+      _id: newUser._id,
+      role: newUser.role,
+    },
+    signature: process.env.SIGN_IN_TOKEN_SECRET,
+    expiresIn: '1h',
+  })
+  newUser.token = token
+  newUser.status = 'Online'
+  await newUser.save()
+  res.status(200).json({ message: 'Verified', newUser })
 }

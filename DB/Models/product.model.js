@@ -9,6 +9,7 @@ const productSchema = new Schema(
       lowercase: true,
     },
     desc: String,
+
     slug: {
       type: String,
       required: true,
@@ -18,6 +19,11 @@ const productSchema = new Schema(
     // ======= Specifications section =======
     colors: [String],
     sizes: [String],
+    
+    barcode:{
+      type : Number,
+      required:true
+    },
 
     // ======= Price section =======
     price: {
@@ -45,7 +51,7 @@ const productSchema = new Schema(
     createdBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true, 
+      // required: true,
     },
     updatedBy: {
       type: Schema.Types.ObjectId,
@@ -85,8 +91,23 @@ const productSchema = new Schema(
       },
     ],
     customId: String,
+    //================= rate ============
+    rate: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 )
+productSchema.virtual('Reviews', {
+  ref: 'Review',
+  foreignField: 'productId',
+  localField: '_id',
+})
 
 export const productModel = model('Product', productSchema)

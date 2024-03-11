@@ -9,7 +9,9 @@ export const couponValidationFunction = async ({
   // couponCode check
   const coupon = await couponModel.findOne({ couponCode })
   if (!coupon) {
-    return next(new Error('please enter valid couponCode', { cause: 400 }))
+    return {
+      msg: 'please enter valid couponCode',
+    }
   }
 
   // expiration
@@ -17,24 +19,43 @@ export const couponValidationFunction = async ({
     coupon.couponStatus == 'Expired' ||
     moment(new Date(coupon.toDate)).isBefore(moment().tz('Africa/Cairo'))
   ) {
-    return next(new Error('this coupon is expired', { cause: 400 }))
+    return {
+      msg: 'this coupon is expired',
+    }
+  }
+  // coupon not started yet
+  if (
+    coupon.couponStatus == 'Valid' &&
+    moment().isBefore(moment(new Date(coupon.fromDate)).tz('Africa/Cairo'))
+  ) {
+    return {
+      msg: 'this coupon is not started yet',
+    }
   }
 
+  let notAssginedusers = []
+  let exceedMaxCount = false
   for (const user of coupon.couponAssginedToUsers) {
     // coupon not assgined to this user
-    // console.log(user.userId.toString())
-    // console.log(userId.toString())
-    // console.log(user.userId.toString() !== userId.toString());
-    if (user.userId.toString() !== userId.toString()) {
-      return next(
-        new Error('this coupon isnot assgined to you', { cause: 400 }),
-      )
-    } // TODO: remove return from looping
+    notAssginedusers.push(user.userId.toString())
     // user exceed maxUsage for this coupon
-    if (user.maxUsage <= user.usageCount) {
-      return next(
-        new Error('you exceed the maxUsage for this coupon', { cause: 400 }),
-      ) // TODO: remove return from looping
+    if (userId.toString() == user.userId.toString()) {
+      if (user.maxUsage <= user.usageCount) {
+        exceedMaxCount = true
+      }
+    }
+  }
+
+  if (!notAssginedusers.includes(userId.toString())) {
+    return {
+      notAssgined: true,
+      msg: 'this is not assgined to you',
+    }
+  }
+  if (exceedMaxCount) {
+    return {
+      exceedMaxCount: true,
+      msg: 'the max usage is exceed',
     }
   }
 
