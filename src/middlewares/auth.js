@@ -9,7 +9,7 @@ export const isAuth = (roles) => {
         return next(new Error("Please login first", { cause: 400 }));
       }
 
-      if (!authorization.startsWith("ecomm__")) {
+      if (!authorization.startsWith("mario_")) {
         return next(new Error("invalid token prefix", { cause: 400 }));
       }
 
