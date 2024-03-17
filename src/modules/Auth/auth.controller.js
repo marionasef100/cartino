@@ -61,22 +61,22 @@ export const signUp = async (req, res, next) => {
 }
 // =============================== confirm email ===============================
 // search on how to save user in db in confirm email api not signUp api
-export const confirmEmail = async (req, res, next) => {
-  const { token } = req.params
-  const decode = verifyToken({
-    token,
-    signature: process.env.CONFIRMATION_EMAIL_TOKEN,
-  })
-  const user = await userModel.findOneAndUpdate(
-    { email: decode?.email, isConfirmed: false },
-    { isConfirmed: true },
-    { new: true },
-  )
-  if (!user) {
-    return next(new Error('already confirmed', { cause: 400 }))
-  }
-  res.status(200).json({ messge: 'Confirmed done, please try to login' })
-}
+// export const confirmEmail = async (req, res, next) => {
+//   const { token } = req.params
+//   const decode = verifyToken({
+//     token,
+//     signature: process.env.CONFIRMATION_EMAIL_TOKEN,
+//   })
+//   const user = await userModel.findOneAndUpdate(
+//     { email: decode?.email, isConfirmed: false },
+//     { isConfirmed: true },
+//     { new: true },
+//   )
+//   if (!user) {
+//     return next(new Error('already confirmed', { cause: 400 }))
+//   }
+//   res.status(200).json({ messge: 'Confirmed done, please try to login' })
+// }
 
 //=============================== Log In ===============================
 export const logIn = async (req, res, next) => {
