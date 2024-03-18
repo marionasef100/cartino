@@ -14,12 +14,14 @@ export const isAuth = (roles) => {
       }
 
       const splitedToken = authorization.split(" ")[1];
-      console.log(splitedToken);
+    
       try {
         const decodedData = verifyToken({
           token: splitedToken,
           signature: process.env.SIGN_IN_TOKEN_SECRET,
-        });
+          
+        })
+       ;
         
         const findUser = await userModel.findById(
           decodedData._id,
@@ -37,7 +39,7 @@ export const isAuth = (roles) => {
           return next(new Error("Unauthorized user", { cause: 401 }));
         }
         req.authUser = findUser;
-        console.log({message:req.authUser});
+        
         next();
       } catch (error) {
         // token  => search in db

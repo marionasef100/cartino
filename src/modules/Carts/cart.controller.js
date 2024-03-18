@@ -55,7 +55,7 @@ export const addToCart = async (req, res, next) => {
   //new cart
   const cartObject = {
     userId,
-    products: [{ barcode: _barcode, quantity,pricePerUnit:product.price,title:product.title }],
+    products: [{ barcode: _barcode, quantity,pricePerUnit:product.price }],
     subTotal: quantity * product.price,
   };
   const cartdb = await cartModel.create(cartObject);
@@ -64,7 +64,7 @@ export const addToCart = async (req, res, next) => {
 
 // ====================== delete from cart ==========================
 export const deleteFromCart = async (req, res, next) => {
-  const userId = req.authUser._id;
+  const userId = req.authUser._id.toString();
   const { _barcode } = req.body;
   const product = await productModel.findOne({
     barcode: _barcode,
@@ -81,21 +81,11 @@ export const deleteFromCart = async (req, res, next) => {
   if (!userCart) {
     return next(new Error("invalid cart", { cause: 400 }));
   }
-   userCart.products.forEach(async(ele) => {
+  userCart.products.forEach((ele) => {
     if (ele.barcode == _barcode) {
       userCart.products.splice(userCart.products.indexOf(ele), 1);
     }
     const newsubtotal=(userCart.subTotal)-(userCart.products.pricePerUnit)
-    const cartUpdate = await cartModel.findOneAndUpdate(
-      { userId },
-      {
-        subTotal:newsubtotal,
-      },
-      {
-        new: true,
-      }
-    );
-    return res.status(200).json({ message: "Updated done", cartUpdate })
   });
 
 
