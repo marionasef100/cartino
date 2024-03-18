@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import { userModel } from '../../../DB/Models/user.model.js'
-import { sendEmailService } from '../../services/sendEmailService.js'
+// import { sendEmailService } from '../../services/sendEmailService.js'
 import { emailTemplate } from '../../utils/emailTemplate.js'
 import { generateToken, verifyToken } from '../../utils/tokenFunctions.js'
 import pkg from 'bcrypt'

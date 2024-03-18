@@ -174,6 +174,7 @@ export const deleteProduct = async (req, res, next) => {
   }
   res.status(200).json({ message: 'Done', product })
 }
+//=================get all product=========
 export const getAllProd = async (req, res, next) => {
   const { page, size } = req.query
   const { limit, skip } = paginationFunction({ page, size })
@@ -189,7 +190,7 @@ export const getAllProd = async (req, res, next) => {
     ])
   res.status(200).json({ message: 'Done', productsc })
 }
-
+// ======product by name or description======
 export const getProductsByTitle = async (req, res, next) => {
   const { searchKey, page, size } = req.query
 
@@ -204,7 +205,7 @@ export const getProductsByTitle = async (req, res, next) => {
     })
     .limit(limit)
     .skip(skip)
-    .select('price desc')
+    .select('title price desc')
     .populate([
       {
         path: 'Reviews',
