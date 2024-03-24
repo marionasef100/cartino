@@ -5,12 +5,14 @@ import { productModel } from "../../../DB/Models/product.model.js";
 export const addToCart = async (req, res, next) => {
   const userId = req.authUser._id;
   const { _barcode, quantity } = req.body;
-  const product = await productModel.findOne({
+
+
+  const productt = await productModel.findOne({
     barcode: _barcode,
     stock: { $gte: quantity },
   });
 
-  if (!product) {
+  if (!productt) {
     return next(
       new Error("invalid product please check the qunatity", { cause: 400 })
     );
@@ -30,17 +32,18 @@ export const addToCart = async (req, res, next) => {
     }
     // push product
     if (!updateFlag) {
-      userCart.products.push({ _barcode, quantity,pricePerUnit });
+      userCart.products.push({barcode:_barcode, quantity,title:productt.title,_id:productt._id,price:productt.price});
     }
 
     // subtotal
     for (const product of userCart.products) {
-      // const productExists = await productModel.findById(product.barcode);
-      subTotal += product.quantity *product.pricePerUnit;
+     //const productExists = await productModel.findById(product.barcode);
+      subTotal += product.quantity *product.price;
     }
     const cartUpdate = await cartModel.findOneAndUpdate(
       { userId },
       {
+
         subTotal,
         products: userCart.products,
         
@@ -55,19 +58,20 @@ export const addToCart = async (req, res, next) => {
   //new cart
   const cartObject = {
     userId,
-    products: [{ barcode: _barcode, quantity,pricePerUnit:product.price }],
-    subTotal: quantity * product.price,
-  };
+    products: [{ _id:productt._id, title:productt.title , barcode: _barcode, quantity,price:productt.price}],
+    subTotal: quantity * productt.price,
+  }
   const cartdb = await cartModel.create(cartObject);
   res.status(201).json({ message: "Done", cartdb });
 };
 
 // ====================== delete from cart ==========================
 export const deleteFromCart = async (req, res, next) => {
-  const userId = req.authUser._id.toString();
-  const { _barcode } = req.body;
+  const userId = req.authUser._id;
+  const { _id } = req.body;
+
   const product = await productModel.findOne({
-    barcode: _barcode,
+    _id: _id,
   });
 
   if (!product) {
@@ -76,20 +80,26 @@ export const deleteFromCart = async (req, res, next) => {
 
   const userCart = await cartModel.findOne({
     userId,
-    "products.barcode": _barcode,
+    // "products._id": _id,
   });
+
   if (!userCart) {
     return next(new Error("invalid cart", { cause: 400 }));
   }
-  userCart.products.forEach((ele) => {
-    if (ele.barcode == _barcode) {
+  userCart.products.forEach(async (ele) => {
+    if (ele._id == _id) {
       userCart.products.splice(userCart.products.indexOf(ele), 1);
+      const newsubtotal=userCart.subTotal-ele.price*ele.quantity
+      userCart.subTotal=newsubtotal
+      await userCart.save();
     }
-    const newsubtotal=(userCart.subTotal)-(userCart.products.pricePerUnit)
   });
-
-
-  await userCart.save();
+  
+  if(userCart.subTotal==0){
+    await cartModel.deleteOne({userCart})
+    console.log({userCart});
+    return res.status(200).json({ message: "your cart is empty" });
+  }
   res.status(200).json({ message: "Done", userCart });
 };
 

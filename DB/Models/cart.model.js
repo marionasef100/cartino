@@ -1,4 +1,5 @@
 
+
 import { Schema, model } from 'mongoose'
 
 const cartSchema = new Schema(
@@ -10,7 +11,22 @@ const cartSchema = new Schema(
     },
     products: [
       {
+        title:{
+          type:String,
+          ref:'product',
+          required:true
+        },
+        price:{
+          type:Number,
+          ref:'product',
+          required:true
 
+        },
+        _id:{
+          type: Schema.Types.ObjectId,
+          ref: 'product',
+          required: true
+        },
         barcode: {
           type: Number,
           ref: 'Product',
@@ -20,11 +36,7 @@ const cartSchema = new Schema(
           type: Number,
           required: true,
         },
-        pricePerUnit:{
-          type:Number,
-          ref:'product',
-          required:true,
-        },
+      
       }
     ],
     subTotal: {

@@ -179,7 +179,7 @@ export const resetPassword = async (req, res, next) => {
   const resetedPassData = await user.save()
   res.status(200).json({ message: 'Done', resetedPassData })
 }
-
+//============loginWithGmail====================
 export const loginWithGmail = async (req, res, next) => {
   const client = new OAuth2Client()
   const { idToken } = req.body
