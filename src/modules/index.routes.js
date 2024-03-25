@@ -7,8 +7,10 @@ import auhtRouter from './Auth/auth.routes.js'
 import cartRouter from './Carts/cart.routes.js'
 import orderRouter from './Orders/order.routes.js'
 import reviewsRouter from './Reviews/review.routes.js'
+import tabletRouter from'./shopcart/shopingcart.routes.js'
 
 export {
+  tabletRouter,
   categoryRouter,
   subCategoryRouter,
   brandRouter,

@@ -11,6 +11,7 @@ export const initiateApp = (app, express) => {
   app.use(express.json())
   connectionDB()
   // cors policy
+  app.use('/tablet',routers.tabletRouter)
   app.use(cors())
   app.use('/category', routers.categoryRouter)
   app.use('/subCategory', routers.subCategoryRouter)

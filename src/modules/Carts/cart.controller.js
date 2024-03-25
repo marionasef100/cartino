@@ -1,5 +1,6 @@
 import { cartModel } from "../../../DB/Models/cart.model.js";
 import { productModel } from "../../../DB/Models/product.model.js";
+import { shopcartModel } from "../../../DB/Models/shopcart.model.js";
 
 // ====================== add to cart ======================
 export const addToCart = async (req, res, next) => {
@@ -43,16 +44,23 @@ export const addToCart = async (req, res, next) => {
     const cartUpdate = await cartModel.findOneAndUpdate(
       { userId },
       {
-
         subTotal,
         products: userCart.products,
-        
       },
       {
         new: true,
       }
     );
-    return res.status(200).json({ message: "Updated done", cartUpdate });
+    const usingcart=await shopcartModel.findOne({usedby:userId})
+    if(!usingcart){
+      return res.status(200).json({ message: "Updated done", cartUpdate });
+    }
+    usingcart.products=userCart.products
+    usingcart.subTotal=userCart.subTotal
+    await usingcart.save();
+    return res.status(200).json({ message: "Updated ", usingcart });
+
+    
   }
 
   //new cart
@@ -63,6 +71,10 @@ export const addToCart = async (req, res, next) => {
   }
   const cartdb = await cartModel.create(cartObject);
   res.status(201).json({ message: "Done", cartdb });
+  
+ 
+  
+  
 };
 
 // ====================== delete from cart ==========================
@@ -95,12 +107,24 @@ export const deleteFromCart = async (req, res, next) => {
     }
   });
   
-  if(userCart.subTotal==0){
-    await cartModel.deleteOne({userCart})
-    console.log({userCart});
-    return res.status(200).json({ message: "your cart is empty" });
-  }
-  res.status(200).json({ message: "Done", userCart });
+  const usingcart=await shopcartModel.findOne({usedby:userId})
+    if(!usingcart){
+      res.status(200).json({ message: "Done", userCart });
+    }
+    usingcart.products=userCart.products
+    usingcart.subTotal=userCart.subTotal
+    usingcart.save();
+    if(userCart.subTotal==0){
+      await cartModel.deleteOne({userCart})
+      await shopcartModel.deleteOne({usingcart})
+      return res.status(200).json({ message: "your cart is empty" });
+    }
+    return res.status(200).json({ message: "Updated ", usingcart });
+    
+  
+
+
 };
+
 
 
