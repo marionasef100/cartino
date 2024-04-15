@@ -5,6 +5,7 @@ import { changeCouponStatusCron } from './crons.js'
 import { gracefulShutdown } from 'node-schedule'
 
 import cors from 'cors'
+import router from '../modules/subCategories/subCategory.routes.js'
 export const initiateApp = (app, express) => {
   const port = process.env.PORT || 5000
 
@@ -22,6 +23,7 @@ export const initiateApp = (app, express) => {
   app.use('/cart', routers.cartRouter)
   app.use('/order', routers.orderRouter)
   app.use('/review', routers.reviewsRouter)
+  app.use('/cash',routers.cahsrouter)
 
   app.all('*', (req, res, next) =>
     res.status(404).json({ message: 'hwa daaa Not Found URL' }),

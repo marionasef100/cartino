@@ -2,14 +2,17 @@
 
 import { Schema, model } from 'mongoose'
 
-const shopingcartSchema = new Schema(
+const cashSection = new Schema(
   {
     usedby:{
         type:Schema.Types.ObjectId,
         ref:'user'
     },
-    products: [
-        {
+
+    cart:{
+      
+       products: [
+          {
           title:{
             type:String,
             ref:'product',
@@ -36,30 +39,20 @@ const shopingcartSchema = new Schema(
           },
         
         }
-      ],
+      ]},
       subTotal: {
         type: Number,
 
         default:0
       },
 
-    QrCode:{
+     numberofcash:{
         type:Number,
-        required:true
-    },
-    numberoncart:{
-      type:Number,
-      required:true
-    },
-    createdby: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required:true,
-      },
+     }
   },
   {
     timestamps: true,
   },
 )
 
-export const shopcartModel = model('shopcart', shopingcartSchema)
+export const cashModel = model('cash', cashSection)

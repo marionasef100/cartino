@@ -3,7 +3,7 @@ import { cartModel } from '../../../DB/Models/cart.model.js';
 //================init new tablet ========
 export const inittablet = async (req, res, next) => {
   const userId = req.authUser._id;
-  const { Qr } = req.body;
+  const { Qr ,number} = req.body;
 
 
 
@@ -14,6 +14,7 @@ export const inittablet = async (req, res, next) => {
   }
   const shopcartobject = {
     QrCode:Qr,
+    numberoncart:number,
     createdby: userId,
 
   }
