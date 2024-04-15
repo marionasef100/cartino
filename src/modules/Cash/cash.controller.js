@@ -16,6 +16,7 @@ export const empCash = async (req, res, next) => {
       
         res.status(200).json({ message: 'emp in duty ', cahsSetup })
     }
+    res.status(200).json({message:'emp already in duty'})
   }
 
 
