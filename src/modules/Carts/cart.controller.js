@@ -1,7 +1,7 @@
 import { cartModel } from "../../../DB/Models/cart.model.js";
 import { productModel } from "../../../DB/Models/product.model.js";
 import { shopcartModel } from "../../../DB/Models/shopcart.model.js";
-
+import { paginationFunction } from '../../utils/pagination.js'
 // ====================== add to cart ======================
 export const addToCart = async (req, res, next) => {
   const userId = req.authUser._id;
@@ -125,6 +125,22 @@ export const deleteFromCart = async (req, res, next) => {
 
 
 };
+export const getAllitemfromlist = async (req, res, next) => {
+  const userId=req.authUser._id
+  const { page, size } = req.query
+  const { limit, skip } = paginationFunction({ page, size })
+
+  const items = await cartModel
+    .findOne({userId:userId})
+    .limit(limit)
+    .skip(skip)
+    // .populate([
+    //   {
+    //     path: 'Reviews',
+    //   },
+    // ])
+  res.status(200).json({ message: 'Done', items })
+}
 
 
 
