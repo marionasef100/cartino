@@ -4,7 +4,7 @@ import { generalFields } from '../../middlewares/validation.js'
 
 export const createOrderSchema = {
   body: Joi.object({
-    address: Joi.string().required(),
+    address: Joi.string(),
     phoneNumbers: Joi.array().items(Joi.string().required()).required(),
     productId: generalFields._id.required(),
     quantity: Joi.number().positive().integer().min(1).required(),

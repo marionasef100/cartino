@@ -16,14 +16,14 @@ function createInvoice(invoice, pathVar) {
 
 function generateHeader(doc) {
   doc
-    .image('cld-sample-4.jpeg', 50, 45, { width: 50 })
+    .image('sahdyy.jpeg', 50, 45, { width: 50 })
     .fillColor('#444444') // black
     .fontSize(20) // 20
-    .text('Route', 110, 57) // Route
+    .text('cartinooo', 110, 57) // Route
     .fillColor('#09c')
     .fontSize(10)
-    .text('Route', 200, 50, { align: 'left' })
-    .text('6 tahrir street', 200, 65, { align: 'left' })
+    .text('cartino', 200, 50, { align: 'left' })
+    .text('shrouk academy', 200, 65, { align: 'left' })
     .text('Cairo,Egypt', 200, 80, { align: 'left' })
     .moveDown()
 }
@@ -37,7 +37,7 @@ function generateCustomerInformation(doc, invoice) {
 
   doc
     .fontSize(10)
-    .text('Order Code:', 50, customerInformationTop)
+    .text('emp_name :', 50, customerInformationTop)
     .font('Helvetica-Bold')
     .text(invoice.orderCode, 150, customerInformationTop)
     .font('Helvetica')

@@ -52,6 +52,7 @@ export const isAuth = (roles) => {
           // generate new token
           const userToken = generateToken({
             payload: {
+              userName:user.userName,
               email: user.email,
               _id: user._id,
             },

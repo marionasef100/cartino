@@ -7,6 +7,7 @@ const orderSchema = new Schema(
       ref: 'User',
       required: true,
     },
+   
     products: [
       {
         productId: {
@@ -48,7 +49,7 @@ const orderSchema = new Schema(
       default: 0,
     },
 
-    address: { type: String, required: true },
+    address: { type: String, required: false},
     phoneNumbers: [{ type: String, required: true }],
 
     orderStatus: {

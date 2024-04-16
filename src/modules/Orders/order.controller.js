@@ -10,6 +10,7 @@ import { qrCodeFunction } from '../../utils/qrCodeFunction.js'
 import { paymentFunction } from '../../utils/payment.js'
 import { generateToken, verifyToken } from '../../utils/tokenFunctions.js'
 import Stripe from 'stripe'
+import { userModel } from '../../../DB/Models/user.model.js'
 
 //=============================== create order ===============
 export const createOrder = async (req, res, next) => {
@@ -91,6 +92,7 @@ export const createOrder = async (req, res, next) => {
     phoneNumbers,
     paymentMethod,
     orderStatus,
+  
   }
 
   const orderDB = await orderModel.create(orderObject)
@@ -145,35 +147,36 @@ export const createOrder = async (req, res, next) => {
   }
 
   // =========================== invoice generation =====================
-  // const orderCode = `${req.authUser.userName}_${nanoid(3)}`
-  // const orderinvoice = {
-  //   orderCode,
-  //   date: orderDB.createdAt,
-  //   shipping: {
-  //     name: req.authUser.userName,
-  //     address: orderDB.address,
-  //     city: 'Cairo',
-  //     country: 'cairo',
-  //     state: 'Cairo',
-  //   },
-  //   items: orderDB.products,
-  //   subTotal: orderDB.subTotal,
-  //   paidAmount: orderDB.paidAmount,
-  // }
-  // await createInvoice(orderinvoice, `${orderCode}.pdf`)
-  // const isEmailSent = await sendEmailService({
-  //   to: req.authUser.email,
-  //   subject: 'Order Confirmation',
-  //   message: `<h1>please find your invoice attachment below</h1>`,
-  //   attachments: [
-  //     {
-  //       path: `./Files/${orderCode}.pdf`,
-  //     },
-  //   ],
-  // })
-  // if (!isEmailSent) {
-  //   return next(new Error('email fail', { cause: 500 }))
-  // }
+  const orderCode = `${req.authUser._id}_${nanoid(3)}`
+
+  const orderinvoice = {
+    orderCode,
+    date: orderDB.createdAt,
+    shipping: {
+      name: req.authUser.userName,
+      address: orderDB.address,
+      city: 'Cairo',
+      country: 'cairo',
+      state: 'Cairo',
+    },
+    items: orderDB.products,
+    subTotal: orderDB.subTotal,
+    paidAmount: orderDB.paidAmount,
+  }
+  await createInvoice(orderinvoice, `${orderCode}.pdf`)
+  const isEmailSent = await sendEmailService({
+    to: req.authUser.email,
+    subject: 'Order Confirmation',
+    message: `<h1>please find your invoice attachment below</h1>`,
+    attachments: [
+      {
+        path: `./Files/${orderCode}.pdf`,
+      },
+    ],
+  })
+  if (!isEmailSent) {
+    return next(new Error('email fail', { cause: 500 }))
+  }
 
   //======================================= QRcode ==================
   const orderQr = await qrCodeFunction({
@@ -235,14 +238,17 @@ export const fromCartToOrde = async (req, res, next) => {
   //=============== products=================
   let products = []
   for (const product of cart.products) {
-    const productExist = await productModel.findById(product.productId)
+    console.log(product);
+    const productExist = await productModel.findById(product._id)
     products.push({
-      productId: product.productId,
+      productId: product._id,
       quantity: product.quantity,
       title: productExist.title,
       price: productExist.priceAfterDiscount,
       finalPrice: productExist.priceAfterDiscount * product.quantity,
+     
     })
+    
   }
 
   //=============== subTotal ==============
@@ -326,7 +332,8 @@ export const fromCartToOrde = async (req, res, next) => {
   }
 
   // =========================== invoice generation =====================
-  const orderCode = `${req.authUser.userName}_${nanoid(3)}`
+  const name =await userModel.findById(userId)
+  const orderCode =name.userName 
   const orderinvoice = {
     orderCode,
     date: orderDB.createdAt,
