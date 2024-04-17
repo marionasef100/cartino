@@ -80,10 +80,10 @@ export const addToCart = async (req, res, next) => {
 // ====================== delete from cart ==========================
 export const deleteFromCart = async (req, res, next) => {
   const userId = req.authUser._id;
-  const { _id } = req.body;
+  const { _barcode} = req.body;
 
   const product = await productModel.findOne({
-    _id: _id,
+    barcode: _barcode,
   });
 
   if (!product) {
@@ -99,7 +99,7 @@ export const deleteFromCart = async (req, res, next) => {
     return next(new Error("invalid cart", { cause: 400 }));
   }
   userCart.products.forEach(async (ele) => {
-    if (ele._id == _id) {
+    if (ele.barcode == _barcode) {
       userCart.products.splice(userCart.products.indexOf(ele), 1);
       const newsubtotal=userCart.subTotal-ele.price*ele.quantity
       userCart.subTotal=newsubtotal
