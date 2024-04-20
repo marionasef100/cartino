@@ -11,7 +11,7 @@ router.post(
   '/',
   multerCloudFunction(allowedExtensions.Image).array('image', 3),
   validationCoreFunction(validators.addProductSchema),
-  asyncHandler(pc.addProduct),
+  asyncHandler(pc.addProduct)
 )
 
 router.put(

@@ -52,4 +52,19 @@ console.log({subCategoryExists,categoryExists});
   res.status(201).json({ message: 'CreatedDone', dbBrand })
 }
 
-// TODO: update and delete brand , get all brands with products
+
+
+///==================get all brand=========
+export const getAllbrands = async (req, res, next) => {
+  
+  const brand = await brandModel.find().populate([
+    {
+      path: 'subCategoryId',
+      select: 'slug',
+    },
+  ])
+  res.status(200).json({ message: 'Done', brand , tt: req.params})
+}
+
+
+// TODO: update and delete brand , get all brands with products//

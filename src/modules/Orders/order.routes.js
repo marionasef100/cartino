@@ -11,14 +11,14 @@ import { orderApisRoles } from './order.endPoints.js'
 
 router.post(
   '/',
-  isAuth([systemRoles.ADMIN]),
+  isAuth([systemRoles.USER]),
   validationCoreFunction(createOrderSchema),
   asyncHandler(oc.createOrder),
 )
 
 router.post(
   '/cartToOrder',
-  isAuth([systemRoles.ADMIN]),
+  isAuth([systemRoles.USER]),
   asyncHandler(oc.fromCartToOrde),
 )
 

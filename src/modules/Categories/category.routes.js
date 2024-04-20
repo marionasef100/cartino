@@ -31,7 +31,7 @@ router.put(
 )
 
 router.get('/', asyncHandler(cc.getAllCategories))
-
+router.get('/offers',asyncHandler(cc.getoffers))
 router.delete(
   '/',
   isAuth(),

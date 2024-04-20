@@ -147,8 +147,8 @@ export const createOrder = async (req, res, next) => {
   }
 
   // =========================== invoice generation =====================
-  const orderCode = `${req.authUser._id}_${nanoid(3)}`
-
+  const name =await userModel.findById(userId)
+  const orderCode =name.userName 
   const orderinvoice = {
     orderCode,
     date: orderDB.createdAt,

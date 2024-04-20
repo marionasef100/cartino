@@ -57,7 +57,7 @@ export const isAuth = (roles) => {
               _id: user._id,
             },
             signature: process.env.SIGN_IN_TOKEN_SECRET,
-            expiresIn: "1h",
+            expiresIn: "1d",
           });
 
           if (!userToken) {
