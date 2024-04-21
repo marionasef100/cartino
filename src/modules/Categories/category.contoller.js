@@ -179,14 +179,13 @@ export const deleteCategory = async (req, res, next) => {
 //==================offers category=============
 export const getoffers = async (req, res, next) => {
   const {  page, size } = req.query
-  const searchKey="66240a73a838b3402999ad8b"
+  const searchKey='66240a73a838b3402999ad8b'
   const { limit, skip } = paginationFunction({ page, size })
 
   const offerproducts = await productModel
     .find({
       $or: [
-        { categoryId: { $regex: searchKey, $options: 'i' } },
-
+        { categoryId: { $regex: searchKey, $options: '66240a73a838b3402999ad8b' } },
       ],
     })
     .limit(limit)
