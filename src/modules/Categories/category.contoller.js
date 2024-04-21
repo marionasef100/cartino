@@ -1,7 +1,7 @@
 import slugify from 'slugify'
 import cloudinary from '../../utils/coludinaryConfigrations.js'
 import { categoryModel } from '../../../DB/Models/category.model.js'
-
+import { paginationFunction } from '../../utils/pagination.js'
 import { customAlphabet } from 'nanoid'
 import { subCategoryModel } from '../../../DB/Models/subCategory.model.js'
 import { brandModel } from '../../../DB/Models/brand.model.js'
