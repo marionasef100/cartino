@@ -1,5 +1,6 @@
 import {shopcartModel} from '../../../DB/Models/shopcart.model.js'
 import { cartModel } from '../../../DB/Models/cart.model.js';
+import { userModel } from '../../../DB/Models/user.model.js';
 //================init new tablet ========
 export const inittablet = async (req, res, next) => {
   const userId = req.authUser._id;
@@ -33,15 +34,17 @@ export const showlist=async(req,res,next)=>{
   if (!findcart) {
     res.status(201).json({message:"no available cart"})
   }
-const listfind=await cartModel.findOne({userId:id})
-if (!listfind) {
+  const userToken =await userModel.findOne({_id:id})
+  const listfind=await cartModel.findOne({userId:id})
+ if (!listfind) {
   res.status(400).json({message:"pls create list first"})
-}
+ }
  findcart.products=listfind.products
-findcart.subTotal=listfind.subTotal
+ findcart.subTotal=listfind.subTotal
+ findcart.token=userToken.token 
 
 
-findcart.save()
+await findcart.save()
 res.json({message:"done",findcart})
 // const shopcartupdate =await shopcartModel.findOneAndUpdate({qr},{$set:{qrscan=listfind.products}})
 

@@ -9,7 +9,6 @@ export const empCash = async (req, res, next) => {
       
         const cashObject = {
           usedby:empId,
-      
         }
       
         const cahsSetup = await cashModel.create(cashObject)
@@ -32,7 +31,7 @@ export const choosecartAtcash = async (req, res, next) => {
 
 cashChosee.cart.products=choosecart.products
 cashChosee.subTotal=choosecart.subTotal
-  
+cashChosee.token=choosecart.token
 
   cashChosee.save()
 

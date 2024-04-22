@@ -56,6 +56,7 @@ const shopingcartSchema = new Schema(
         ref: 'User',
         required:true,
       },
+      token: String,
   },
   {
     timestamps: true,

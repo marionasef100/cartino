@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid'
+
 import { cartModel } from '../../../DB/Models/cart.model.js'
 import { couponModel } from '../../../DB/Models/coupon.model.js'
 import { orderModel } from '../../../DB/Models/order.model.js'
@@ -11,6 +11,7 @@ import { paymentFunction } from '../../utils/payment.js'
 import { generateToken, verifyToken } from '../../utils/tokenFunctions.js'
 import Stripe from 'stripe'
 import { userModel } from '../../../DB/Models/user.model.js'
+import { shopcartModel } from '../../../DB/Models/shopcart.model.js'
 
 //=============================== create order ===============
 export const createOrder = async (req, res, next) => {
@@ -380,10 +381,17 @@ export const fromCartToOrde = async (req, res, next) => {
     }
     await req.coupon.save()
   }
-
+///==============reset to list and cart at market to another user======
   cart.products = []
+  cart.subTotal=0
+  const cartatmarket=await shopcartModel.findOne({usedby:userId})
+cartatmarket.products=[]
+cartatmarket.token=''
+cartatmarket.subTotal=0
+cartatmarket.usedby=null
+await cartatmarket.save()
   await cart.save()
-  res.status(201).json({ message: 'done', orderDB, cart })
+  res.status(201).json({ message: 'done', orderDB, cart,orderSession })
 }
 
 // ============================= success payment  ===================

@@ -1,5 +1,6 @@
 
 
+
 import { Schema, model } from 'mongoose'
 
 const cashSection = new Schema(
@@ -48,7 +49,8 @@ const cashSection = new Schema(
 
      numberofcash:{
         type:Number,
-     }
+     },
+     token: String,
   },
   {
     timestamps: true,
