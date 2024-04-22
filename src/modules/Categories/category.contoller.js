@@ -178,23 +178,12 @@ export const deleteCategory = async (req, res, next) => {
 
 //==================offers category=============
 export const getoffers = async (req, res, next) => {
-  const {  page, size } = req.query
+
   const searchKey='66240a73a838b3402999ad8b'
   const { limit, skip } = paginationFunction({ page, size })
 
-  const offerproducts = await productModel
-    .find({
-      $or: [
-        { categoryId: { $regex: searchKey, $options: '66240a73a838b3402999ad8b' } },
-      ],
-    })
-    .limit(limit)
-    .skip(skip)
-    .select('title price desc')
-    .populate([
-      {
-        path: 'Reviews',
-      },
-    ])
+  const offerproducts = await productModel.findOne({categoryId:searchKey})
+    
+  
   res.status(200).json({ message: 'Done', offerproducts })
 }
