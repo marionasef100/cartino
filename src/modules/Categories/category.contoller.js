@@ -180,10 +180,17 @@ export const deleteCategory = async (req, res, next) => {
 export const getoffers = async (req, res, next) => {
 
   const searchKey='66240a73a838b3402999ad8b'
-  const { limit, skip } = paginationFunction({ page, size })
+  const allProducts = await productModel.find();
+        
+        // Filter products by category ID using a for loop
+        const productsInoffersCategory = [];
+        for (const product of allProducts) {
+            if (product.categoryId.toString() === searchKey) { // Assuming category is stored as ObjectId
+                productsInoffersCategory.push(product);
+            }
+            return productsInoffersCategory;
+          }
+        
 
-  const offerproducts = await productModel.findOne({categoryId:searchKey})
-    
-  
-  res.status(200).json({ message: 'Done', offerproducts })
+  res.status(200).json({ message: 'Done', productsInoffersCategory })
 }
