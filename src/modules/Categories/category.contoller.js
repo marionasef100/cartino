@@ -185,10 +185,9 @@ export const getoffers = async (req, res, next) => {
         // Filter products by category ID using a for loop
         const productsInoffersCategory = [];
         for (const product of allProducts) {
-            if (product.categoryId.toString() === searchKey) { // Assuming category is stored as ObjectId
+            if (product.categoryId.toString() === searchKey.toString()) { 
                 productsInoffersCategory.push(product);
             }
-            return productsInoffersCategory;
           }
         
 
