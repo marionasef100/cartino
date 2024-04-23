@@ -27,7 +27,7 @@ export const signUp = async (req, res, next) => {
       email,
     },
     signature: process.env.CONFIRMATION_EMAIL_TOKEN,
-    expiresIn: '1h',
+    expiresIn: '1d',
   })
   const conirmationlink = `${req.protocol}://${req.headers.host}/auth/confirm/${token}`
   const isEmailSent = sendEmailService({
@@ -87,7 +87,7 @@ export const logIn = async (req, res, next) => {
   }
   const isPassMatch = pkg.compareSync(password, user.password)
   if (!isPassMatch) {
-    return next(new Error('invalid login credentials', { cause: 400 }))
+    return next(new Error('wrong password', { cause: 400 }))
   }
 
   const token = generateToken({
@@ -97,7 +97,7 @@ export const logIn = async (req, res, next) => {
       role: user.role,
     },
     signature: process.env.SIGN_IN_TOKEN_SECRET,
-    expiresIn: '1h',
+    expiresIn: '1d',
   })
 
   const userUpdated = await userModel.findOneAndUpdate(
