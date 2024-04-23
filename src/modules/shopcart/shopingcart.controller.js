@@ -55,7 +55,7 @@ res.json({message:"done",findcart})
 ///===============api to get token of user just scanned the barcode=====
 
 export const usertoken =async(req,res,next)=>{
-const {qr} =req.body
+const {qr} =req.params
 const cartqr=await shopcartModel.findOne({QrCode:qr})
 const token=await userModel.findOne({Qr:cartqr.QrCode})
 
