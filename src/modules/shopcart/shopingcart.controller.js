@@ -8,7 +8,7 @@ export const inittablet = async (req, res, next) => {
 
 
 
-  if (await shopcartModel.findOne({QrCode:Qr})) {
+  if (await shopcartModel.findOne({QrCode:Qr,numberoncart:number})) {
     return next(
       new Error('please enter different qr code', { cause: 400 }),
     )
@@ -56,8 +56,8 @@ res.json({message:"done",findcart})
 
 export const usertoken =async(req,res,next)=>{
 const {qr} =req.params
-const cartqr=await shopcartModel.findOne({QrCode:qr})
-const token=await userModel.findOne({Qr:cartqr.QrCode})
+// const cartqr=await shopcartModel.findOne({QrCode:qr})
+const token=await userModel.findOne({Qr:qr})
 
 res.json({message:"user token is ",token})
 
