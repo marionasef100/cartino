@@ -27,7 +27,7 @@ const shopingcartSchema = new Schema(
             
           },
           barcode: {
-            type: Number,
+            type: String,
             ref: 'Product',
             
           },
@@ -44,7 +44,7 @@ const shopingcartSchema = new Schema(
       },
 
     QrCode:{
-        type:Number,
+        type:String,
         required:true
     },
     numberoncart:{

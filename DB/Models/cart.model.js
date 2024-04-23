@@ -28,7 +28,7 @@ const cartSchema = new Schema(
           required: true
         },
         barcode: {
-          type: Number,
+          type:String,
           ref: 'Product',
           required: true,
         },
