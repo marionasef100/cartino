@@ -31,7 +31,7 @@ const cashSection = new Schema(
             
           },
           barcode: {
-            type: String,
+            type: Number,
             ref: 'Product',
             
           },
