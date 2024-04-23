@@ -7,7 +7,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    Qr:{
+    noOfCart:{
       type:Number
   },
     email: {
