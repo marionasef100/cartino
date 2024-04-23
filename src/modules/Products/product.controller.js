@@ -205,7 +205,7 @@ export const getProductsByTitle = async (req, res, next) => {
     })
     .limit(limit)
     .skip(skip)
-    .select('title price desc')
+    .select('title price desc Images')
     .populate([
       {
         path: 'Reviews',

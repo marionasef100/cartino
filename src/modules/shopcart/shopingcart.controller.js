@@ -28,7 +28,7 @@ export const inittablet = async (req, res, next) => {
 //============scan qr code and show list=========
 export const showlist=async(req,res,next)=>{
   const id=req.authUser._id;
-  const{qr}=req.body
+  const{qr}=req.query
   const findcart =await shopcartModel.findOneAndUpdate({QrCode:qr},{$set:{usedby:id}})
 
   if (!findcart) {
