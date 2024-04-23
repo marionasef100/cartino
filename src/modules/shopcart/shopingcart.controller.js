@@ -42,8 +42,9 @@ export const showlist=async(req,res,next)=>{
  findcart.products=listfind.products
  findcart.subTotal=listfind.subTotal
  findcart.token=userToken.token 
+ userToken.Qr=findcart.QrCode
 
-
+ await userToken.save()
 await findcart.save()
 res.json({message:"done",findcart})
 // const shopcartupdate =await shopcartModel.findOneAndUpdate({qr},{$set:{qrscan=listfind.products}})
@@ -51,3 +52,13 @@ res.json({message:"done",findcart})
 
 }
 
+///===============api to get token of user just scanned the barcode=====
+
+export const usertoken =async(req,res,next)=>{
+const {qr} =req.body
+const cartqr=await shopcartModel.findOne({QrCode:qr})
+const token=await userModel.findOne({Qr:cartqr.QrCode})
+
+res.json({message:"user token is ",token})
+
+}

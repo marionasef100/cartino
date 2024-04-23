@@ -7,4 +7,5 @@ import { systemRoles } from '../../utils/systemRoles.js'
 
 router.post('/', isAuth([systemRoles.ADMIN]), asyncHandler(sc.inittablet))
 router.get('/', isAuth(systemRoles.USER), asyncHandler(sc.showlist))
+router.get('/gettoken',asyncHandler(sc.usertoken))
 export default router
