@@ -8,4 +8,5 @@ import { systemRoles } from '../../utils/systemRoles.js'
 router.post('/', isAuth([systemRoles.ADMIN]), asyncHandler(CC.empCash))
 router.get('/', isAuth(systemRoles.ADMIN), asyncHandler(CC.choosecartAtcash))
 router.delete('/',isAuth(systemRoles.ADMIN),asyncHandler(CC.empDeleteitem))
+router.post('/checkout',isAuth(systemRoles.ADMIN),asyncHandler(CC.checkout))
 export default router

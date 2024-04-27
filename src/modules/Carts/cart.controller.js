@@ -33,7 +33,7 @@ export const addToCart = async (req, res, next) => {
     }
     // push product
     if (!updateFlag) {
-      userCart.products.push({barcode:_barcode, quantity,title:productt.title,_id:productt._id,price:productt.price,image:productt.Images});
+      userCart.products.push({barcode:_barcode, quantity,title:productt.title,_id:productt._id,price:productt.price,Images:productt.Images});
     }
 
     // subtotal
@@ -66,7 +66,7 @@ export const addToCart = async (req, res, next) => {
   //new cart
   const cartObject = {
     userId,
-    products: [{ _id:productt._id, title:productt.title , barcode: _barcode, quantity,price:productt.price,image:productt.Images}],
+    products: [{ _id:productt._id, title:productt.title , barcode: _barcode, quantity,price:productt.price,Images:productt.Images}],
     subTotal: quantity * productt.price,
   }
   const cartdb = await cartModel.create(cartObject);

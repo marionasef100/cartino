@@ -28,7 +28,7 @@ export const updateProductSchema = {
     colors: Joi.array().items(Joi.string().required()).optional(),
     sizes: Joi.array().items(Joi.string().required()).optional(),
     stock: Joi.number().integer().positive().min(1).optional(),
-    barcode:Joi.number().integer().positive().required()
+    barcode:Joi.number().integer().positive().optional()
   }),
   query: Joi.object({
     productId: generalFields._id.required(),
