@@ -11,8 +11,7 @@ import { brandApisRoles } from './brand.endppints.js'
 // TODO: api validation
 router.post(
   '/',isAuth(brandApisRoles.CREAT_CATEGORY),
-  multerCloudFunction(allowedExtensions.Image).single('logo'),
-  asyncHandler(bc.addBrand),
+  multerCloudFunction(allowedExtensions.Image).single('logo')//,asyncHandler(bc.addBrand),
 )
 
 router.get('/',asyncHandler(bc.getAllbrands))
