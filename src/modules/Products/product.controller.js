@@ -12,7 +12,7 @@ import { ApiFeatures } from '../../utils/apiFeatures.js'
 const nanoid = customAlphabet('123456_=!ascbhdtel', 5)
 //============================= Add product ===================
 export const addProduct = async (req, res, next) => {
-  const { title, desc, price, appliedDiscount, colors, sizes, stock,barcode } = req.body
+  const { title, desc, price, appliedDiscount, colors, sizes, stock,barcode,indexX,indexY } = req.body
 
   const { categoryId, subCategoryId, brandId } = req.query
   // check Ids
@@ -65,7 +65,9 @@ export const addProduct = async (req, res, next) => {
     brandId,
     Images,
     customId,
-    barcode
+    barcode,
+    indexX,
+    indexY
   }
 
   const product = await productModel.create(productObject)

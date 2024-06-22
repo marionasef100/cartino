@@ -98,6 +98,15 @@ const productSchema = new Schema(
       default: 0,
       required: true,
     },
+    indexX:{
+      type: Number,
+      require:true
+
+    },
+    indexY:{
+      type: Number,
+      require:true
+    },
   },
   {
     timestamps: true,
