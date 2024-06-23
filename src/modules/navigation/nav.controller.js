@@ -1,4 +1,4 @@
-import { productModel } from "../../../DB/Models/product.model";
+import { productModel } from "../../../../code/DB/Models/product.model.js";
 
 
 //get costumer current position
