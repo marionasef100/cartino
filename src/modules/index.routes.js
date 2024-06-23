@@ -9,6 +9,7 @@ import orderRouter from './Orders/order.routes.js'
 import reviewsRouter from './Reviews/review.routes.js'
 import tabletRouter from'./shopcart/shopingcart.routes.js'
 import cahsrouter from './Cash/cash.router.js'
+import navigationrouter from './navigation/nav.router.js'
  
 export {
   tabletRouter,
@@ -21,5 +22,6 @@ export {
   cartRouter,
   orderRouter,
   reviewsRouter,
-  cahsrouter
+  cahsrouter,
+  navigationrouter
 }

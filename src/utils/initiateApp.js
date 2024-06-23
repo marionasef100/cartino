@@ -24,6 +24,7 @@ export const initiateApp = (app, express) => {
   app.use('/order', routers.orderRouter)
   app.use('/review', routers.reviewsRouter)
   app.use('/cash',routers.cahsrouter)
+  app.use("/navigation",routers.navigationrouter)
 
   app.all('*', (req, res, next) =>
     res.status(404).json({ message: 'hwa daaa Not Found URL' }),
