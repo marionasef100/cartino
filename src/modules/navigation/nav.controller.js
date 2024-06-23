@@ -13,6 +13,7 @@ export const getuserPos=async(req,res,next)=>{
     const indX=currentPos.indexX
     const indY=currentPos.indexY
 
+    res.status(200).json({ message: 'Done', })
     console.log(indX,indY);
 
 }
