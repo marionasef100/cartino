@@ -1,8 +1,7 @@
 import { productModel } from "../../../DB/Models/product.model.js";
 
 
-
- //get costumer current position
+//get costumer current position
 export const getuserPos=async(req,res,next)=>{
 
     const{ _barcode}=req.body
@@ -11,10 +10,11 @@ export const getuserPos=async(req,res,next)=>{
     if (!currentPos) {
       res.status(201).json({message:"pls scan another item"})
     }
-    const indX=currentPos.indexX;
+     const indX=currentPos.indexX;
      const indY=currentPos.indexY;
-      
-     return indX,indY
+    
+
+    res.status(200).json({ message: 'Done', indX,indY })
 
 }
 
@@ -34,7 +34,6 @@ export const getdestination=async(req ,res,next)=>{
     const destX=productt.indexX
     const destY=productt.indexY
        
-   return destX,destY
+    res.status(200).json({ message: 'your destination is ',destX,destY })
       
 }
-
