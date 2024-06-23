@@ -1,6 +1,7 @@
 const { createCanvas } = require('canvas');
 const fs = require('fs');
 
+
 // Define canvas dimensions
 const canvasWidth = 1200;
 const canvasHeight = 800;

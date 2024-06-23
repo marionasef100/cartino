@@ -5,4 +5,5 @@ import { asyncHandler } from '../../utils/errorhandling.js'
 
 router.get('/', asyncHandler(nC.getuserPos))
 router.get('/dest',asyncHandler(nC.getdestination))
+router.post('/path',asyncHandler(nC.drawPath))
 export default router
