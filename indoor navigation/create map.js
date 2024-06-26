@@ -1,5 +1,7 @@
-const { createCanvas } = require('canvas');
-const fs = require('fs');
+import {createCanvas } from 'canvas';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 
 // Define canvas dimensions
@@ -103,16 +105,16 @@ ctx.fillStyle = 'red';
 ctx.fillRect(1140, 350, 60, 100);
 
 // Draw customer's location
-const customerX = 160;
-const customerY = 365;
+const customerX = posx;
+const customerY = posy;
 ctx.fillStyle = 'blue';
 ctx.beginPath();
 ctx.arc(customerX, customerY, 13, 0, Math.PI * 2);
 ctx.fill();
 
 // Draw destination
-const destinationX = 1150;
-const destinationY = 240;
+const destinationX = destx;
+const destinationY = desty;
 ctx.fillStyle = 'orange';
 ctx.beginPath();
 ctx.arc(destinationX, destinationY, 13, 0, Math.PI * 2);
@@ -153,14 +155,14 @@ class PriorityQueue {
   
     reconstructPath(cameFrom, start, goal) {
       let currentNode = goal;
-      const path = [currentNode];
+      const route = [currentNode];
   
       while (currentNode.toString() !== start.toString()) {
         currentNode = cameFrom[currentNode];
-        path.push(currentNode);
+        route.push(currentNode);
       }
   
-      return path.reverse();
+      return route.reverse();
     }
   
     astarWithObstacles(start, goal) {
@@ -233,19 +235,19 @@ const costsWithObstacles = {
 const astar = new AStar(costsWithObstacles);
 const startNode = [destinationX, destinationY]
 const goalNode = [customerX,customerY];
-const path = astar.astarWithObstacles(startNode, goalNode);
+const route = astar.astarWithObstacles(startNode, goalNode);
 
 
-console.log(path);
+console.log(route);
 
-//draw path
+//draw route
 function drawPath() {
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 10;
     ctx.beginPath();
-    for (let i = 0; i < path.length - 1; i++) {
-      const [x1, y1] = path[i];
-      const [x2, y2] = path[i + 1];
+    for (let i = 0; i < route.length - 1; i++) {
+      const [x1, y1] = route[i];
+      const [x2, y2] = route[i + 1];
       ctx.moveTo(x1 , y1 );
       ctx.lineTo(x2 , y2 );
     }
@@ -259,15 +261,13 @@ function drawPath() {
     ctx.fillRect(goalNode[0] , goalNode[1]);
   }
 
-
+console.log(posx,posy);
 
 // Save canvas to a file
 drawPath();
-
-const out = fs.createWriteStream(__dirname + '/map.png');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const out = fs.createWriteStream(path.join(__dirname, 'map.png'));;
 const stream = canvas.createPNGStream();
 stream.pipe(out);
 out.on('finish', () => console.log('Map image created.'));
-
-
-

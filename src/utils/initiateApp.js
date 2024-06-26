@@ -3,9 +3,9 @@ import { globalResponse } from './errorhandling.js'
 import * as routers from '../modules/index.routes.js'
 import { changeCouponStatusCron } from './crons.js'
 import { gracefulShutdown } from 'node-schedule'
+import router from '../modules/subCategories/subCategory.routes.js'
 
 import cors from 'cors'
-import router from '../modules/subCategories/subCategory.routes.js'
 export const initiateApp = (app, express) => {
   const port = process.env.PORT || 5000
 

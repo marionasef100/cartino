@@ -7,9 +7,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    noOfCart:{
-      type:Number
-  },
     email: {
       type: String,
       required: true,
@@ -19,19 +16,22 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    isConfirmed: {
-      type: Boolean,
+    phoneNumber: {
+      type: String,
       required: true,
-      default: false,
     },
     role: {
       type: String,
       default: systemRoles.USER,
       enum: [systemRoles.USER, systemRoles.ADMIN, systemRoles.SUPER_ADMIN],
     },
-    phoneNumber: {
-      type: String,
+    noOfCart:{
+      type:Number
+  },
+    isConfirmed: {
+      type: Boolean,
       required: true,
+      default: false,
     },
     address: [
       {

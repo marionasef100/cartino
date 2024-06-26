@@ -1,17 +1,12 @@
 
-
-
 import { Schema, model } from 'mongoose'
-
 const cashSection = new Schema(
   {
     usedby:{
         type:Schema.Types.ObjectId,
         ref:'user'
     },
-
     cart:{
-      
        products: [
           {
           title:{
@@ -37,8 +32,7 @@ const cashSection = new Schema(
           },
           quantity:{
             type: Number,
-          },
-        
+          }   
         }
       ]},
       subTotal: {
