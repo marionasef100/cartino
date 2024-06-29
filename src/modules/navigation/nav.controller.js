@@ -1,9 +1,13 @@
 import { productModel } from "../../../DB/Models/product.model.js";
 ///
+import cloudinary from '../../utils/coludinaryConfigrations.js'
+import { customAlphabet } from 'nanoid'
 import {createCanvas } from 'canvas';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { stringify } from "querystring";
+const nanoid = customAlphabet('123456_=!ascbhdtel', 5)
 
 
 ///////////expo
@@ -282,12 +286,27 @@ console.log(posx,posy);
 drawPath();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const out = fs.createWriteStream(path.join(__dirname, 'map.png'));;
-const stream = canvas.createPNGStream();
-stream.pipe(out);
-out.on('finish', () => console.log('Map image created.'));
 
-res.status(200).json({ message: 'your map is ',out })
 
- 
+    const outPath = path.join(__dirname, 'map.png');
+    const out = fs.createWriteStream(outPath);
+    const stream = canvas.createPNGStream();
+
+    stream.pipe(out);
+
+    out.on('finish', () => {
+        res.download(outPath, 'map.png', (err) => {
+            if (err) {
+                console.error('Error sending file:', err);
+                res.status(500).send('Error generating image');
+            }
+        });
+    });
+
+    out.on('error', (err) => {
+        console.error('Error writing file:', err);
+        res.status(500).send('Error generating image');
+    });
+
+
 }
