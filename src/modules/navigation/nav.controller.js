@@ -295,18 +295,18 @@ const __dirname = path.dirname(__filename);
     stream.pipe(out);
 
     out.on('finish', () => {
-        res.download(outPath, 'map.png', (err) => {
-            if (err) {
-                console.error('Error sending file:', err);
-                res.status(500).send('Error generating image');
-            }
-        });
+      
     });
+    const customId = nanoid()
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        outPath,
+        {
+          folder: `${process.env.PROJECT_FOLDER}/navigation/${customId}`,
+        },
+      )
+      
+      res.status(200).json({message:"your map links ",secure_url,public_id})
 
-    out.on('error', (err) => {
-        console.error('Error writing file:', err);
-        res.status(500).send('Error generating image');
-    });
 
 
 }
