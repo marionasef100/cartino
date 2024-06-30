@@ -203,36 +203,36 @@ export const checkout = async (req, res, next) => {
   }
 
   // =========================== invoice generation =====================
-  const name =await userModel.findOne({_id:empId})
-  const orderCode =name.userName 
-  const orderinvoice = {
-    orderCode,
-    date: orderDB.createdAt,
-    shipping: {
-      name: req.authUser.userName,
-      address: orderDB.address,
-      city: 'Cairo',
-      country: 'cairo',
-      state: 'Cairo',
-    },
-    items: orderDB.products,
-    subTotal: orderDB.subTotal,
-    paidAmount: orderDB.paidAmount,
-  }
-  createInvoice(orderinvoice, `${orderCode}.pdf`)
-  const isEmailSent = await sendEmailService({
-    to: req.authUser.email,
-    subject: 'Order Confirmation',
-    message: `<h1>please find your invoice attachment below</h1>`,
-    attachments: [
-      {
-        path: `./Files/${orderCode}.pdf`,
-      },
-    ],
-  })
-  if (!isEmailSent) {
-    return next(new Error('email fail', { cause: 500 }))
-  }
+  // const name =await userModel.findOne({_id:empId})
+  // const orderCode =name.userName 
+  // const orderinvoice = {
+  //   orderCode,
+  //   date: orderDB.createdAt,
+  //   shipping: {
+  //     name: req.authUser.userName,
+  //     address: orderDB.address,
+  //     city: 'Cairo',
+  //     country: 'cairo',
+  //     state: 'Cairo',
+  //   },
+  //   items: orderDB.products,
+  //   subTotal: orderDB.subTotal,
+  //   paidAmount: orderDB.paidAmount,
+  // }
+  // createInvoice(orderinvoice, `${orderCode}.pdf`)
+  // const isEmailSent = await sendEmailService({
+  //   to: req.authUser.email,
+  //   subject: 'Order Confirmation',
+  //   message: `<h1>please find your invoice attachment below</h1>`,
+  //   attachments: [
+  //     {
+  //       path: `./Files/${orderCode}.pdf`,
+  //     },
+  //   ],
+  // })
+  // if (!isEmailSent) {
+  //   return next(new Error('email fail', { cause: 500 }))
+  // }
   // decrease products stock by quantity
   for (const product of shopcart.products) {
     await productModel.findOneAndUpdate(
