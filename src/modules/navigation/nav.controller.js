@@ -90,38 +90,38 @@ for (let i = 0; i < 5; i++) {
 //write sections name
 ctx.font="35px Arial"
 ctx.fillStyle = "black";
-ctx.fillText(" 1",210,190);
-ctx.fillText(" 2",510,190);
-ctx.fillText(" 3",810,190);
+ctx.fillText("    1",210,190);
+ctx.fillText("    2",510,190);
+ctx.fillText("    3",810,190);
 
-ctx.fillText(" 4",210,300);
-ctx.fillText(" 5",510,300);
-ctx.fillText(" 6",810,300);
+ctx.fillText("    4",210,300);
+ctx.fillText("    5",510,300);
+ctx.fillText("    6",810,300);
 
-ctx.fillText(" 7",210,430);
-ctx.fillText(" 8",510,430);
-ctx.fillText(" 9",810,430);
+ctx.fillText("    7",210,430);
+ctx.fillText("    8",510,430);
+ctx.fillText("    9",810,430);
 
-ctx.fillText(" 10",210,540);
-ctx.fillText(" 11",510,540);
-ctx.fillText(" 12",810,540);
+ctx.fillText("    10",210,540);
+ctx.fillText("    11",510,540);
+ctx.fillText("    12",810,540);
 
-ctx.fillText(" 13",210,670);
-ctx.fillText(" 14",510,670);
-ctx.fillText(" 15",810,670);
+ctx.fillText("    13",210,670);
+ctx.fillText("    14",510,670);
+ctx.fillText("    15",810,670);
 
 
 // Draw checkout counter
-ctx.fillStyle = 'lightblue';
-ctx.fillRect(1100, 100, 100, 600);
+// ctx.fillStyle = 'lightblue';
+// ctx.fillRect(1100, 100, 100, 600);
 
 // Draw entrance
 ctx.fillStyle = 'green';
-ctx.fillRect(0, 350, 60, 200);
+ctx.fillRect(0, 100, 80, 600);
 
 // Draw exit
 ctx.fillStyle = 'red';
-ctx.fillRect(1140, 350, 60, 200);
+ctx.fillRect(1130, 100, 100, 600);
 
 // Draw customer's location
 const customerX = posx;
