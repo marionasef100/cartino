@@ -219,7 +219,6 @@ export const checkout = async (req, res, next) => {
     subTotal: orderDB.subTotal,
     paidAmount: orderDB.paidAmount,
   }
-  await createInvoice(orderinvoice, `${orderCode}.pdf`)
   const isEmailSent = await sendEmailService({
     to: req.authUser.email,
     subject: 'Order Confirmation',
